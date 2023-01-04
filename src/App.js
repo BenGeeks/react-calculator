@@ -38,6 +38,7 @@ function App() {
     operation === '/' && setResult((prevValue) => memory / parseFloat(prevValue));
     setMemory(result);
     setOperation('');
+    setIsNewNumber(true);
   };
 
   const handleClick = (type, value) => {
