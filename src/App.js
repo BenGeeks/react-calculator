@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './App.css';
 
 function App() {
@@ -27,11 +27,13 @@ function App() {
   const [memory, setMemory] = useState(0);
   const [operation, setOperation] = useState('');
   const [isNewNumber, setIsNewNumber] = useState(true);
+  const displayOperation = useRef();
+
+  useEffect(() => {
+    operation === '' ? (displayOperation.current.style.display = 'none') : (displayOperation.current.style.display = 'block');
+  }, [operation]);
 
   const handleCalculate = () => {
-    console.log('Memory: ', memory);
-    console.log('Result: ', result);
-    console.log('Operation: ', operation);
     operation === '+' && setResult((prevValue) => memory + parseFloat(prevValue));
     operation === '-' && setResult((prevValue) => memory - parseFloat(prevValue));
     operation === 'X' && setResult((prevValue) => memory * parseFloat(prevValue));
@@ -79,7 +81,9 @@ function App() {
       <header className="App-header">My React Calculator!</header>
       <div className="display-container">
         <div className="display-result">{result}</div>
-        {operation !== '' && <div className="operation">{operation}</div>}
+        <div ref={displayOperation} className="operation">
+          {operation}
+        </div>
       </div>
       <div className="grid-container">
         {gridItems.map((item, index) => {
